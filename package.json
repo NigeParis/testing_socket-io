@@ -1,0 +1,21 @@
+{
+  "name": "websock",
+  "module": "index.ts",
+  "scripts": {
+    "dev": "tsx index.ts"
+  },
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "fastify": "^5.6.1",
+    "socket.io": "^4.8.1",
+    "tsc": "^2.0.4",
+    "tsx": "^4.20.6"
+  }
+}
