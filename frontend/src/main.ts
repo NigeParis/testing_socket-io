@@ -1,8 +1,9 @@
+import './style.css'
 // client.js
-import { io } from "https://cdn.socket.io/4.5.4/socket.io.esm.min.js";
+import  io  from "socket.io-client"
 
 // Connect to the server (replace with the actual server URL if deployed elsewhere)
-const socket = io("http://localhost:3000");
+const socket = io("ws://localhost:3000");
 
 // Listen for the 'connect' event
 socket.on("connect", () => {
