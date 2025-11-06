@@ -26,12 +26,12 @@ const io = new Server(fastify.server, {
 })
 
 // Declare a route
-fastify.get('/', function (request, reply) {
+fastify.get('/', function (request: any, reply: any) {
   reply.send("Hello root page:");
 })
 
 // Run the server!
-fastify.listen({ port: 3000 }, function (err, address) {
+fastify.listen({ port: 3000 }, function (err: any, address) {
   if (err) {
     fastify.log.error(err)
     process.exit(1)
@@ -39,9 +39,9 @@ fastify.listen({ port: 3000 }, function (err, address) {
   // Server is now listening on ${address}
 })
 
-io.on("connection", (socket) => {
+io.on("connection", (socket: any) => {
 	console.log("testing")
-	socket.on("message", (data) => console.log(data))
+	socket.on("message", (data: any) => console.log(data))
 	socket.once("message", () => socket.send("connected succesfuly"));
-	socket.once("coucou", (data) => console.log(data))
+	socket.once("coucou", (data: any) => console.log(data))
 })

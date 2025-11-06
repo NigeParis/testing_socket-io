@@ -1,6 +1,10 @@
-import './style.css'
 // client.js
+
+import './style.css'
 import  io  from "socket.io-client"
+
+
+
 
 // Connect to the server (replace with the actual server URL if deployed elsewhere)
 const socket = io("ws://localhost:3000");
