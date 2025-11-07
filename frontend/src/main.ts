@@ -45,6 +45,7 @@ bwhoami!.addEventListener('click', async () => {
   let socketid = JSON.stringify(socket.id, null, 2);
   const IDElement = document.createElement('username');
   IDElement.textContent = socketid;
+  username.textContent = "";
   username.appendChild(IDElement);
 });
 
