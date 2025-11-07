@@ -2,6 +2,7 @@ import Fastify from 'fastify'
 import {Server } from "socket.io"
 import path from 'path'
 import fastifyStatic from '@fastify/static'
+import fs from 'fs/promises'
 
 
 import { fileURLToPath } from 'url';
@@ -26,8 +27,16 @@ const io = new Server(fastify.server, {
 })
 
 // Declare a route
-fastify.get('/', function (request: any, reply: any) {
-  reply.send("Hello root page:");
+fastify.get('/chat/', async function (request: any, reply: any) {
+ try {
+		const filePath = path.join('../frontend/', 'index.html');
+		const fileContent = await fs.readFile(filePath, 'utf-8');
+		reply.type('text/html').send(fileContent);
+	}
+	catch (err) {
+		console.error('Error loading index.html:', err);
+		reply.code(500).send('Error loading index.html');
+	}
 })
 
 // Run the server!
