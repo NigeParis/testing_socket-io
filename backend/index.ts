@@ -1,5 +1,5 @@
 import Fastify from 'fastify'
-import {Server } from "socket.io"
+import { Server } from "socket.io"
 import path from 'path'
 import fastifyStatic from '@fastify/static'
 import fs from 'fs/promises'
@@ -23,7 +23,7 @@ fastify.register(fastifyStatic, {
 const io = new Server(fastify.server, {
 	cors: {
 		origin: "*",
-	}
+  }
 })
 
 // Declare a route
@@ -39,6 +39,28 @@ fastify.get('/chat/', async function (request: any, reply: any) {
 	}
 })
 
+
+
+io.on("connection", (socket: any) => {
+  console.log("testing")
+  console.log(`Client connected: ${socket.id}`);
+	socket.on("message", (data: any) => console.log(data, `socketID: ${socket.id}`));
+	socket.once("message", () => socket.send("connected succesfuly"));
+	socket.once("coucou", (data: any) => console.log(data))
+  const clientIP = socket.handshake.address;
+  socket.on("toutou", async() => await closeServer());
+});
+
+async function closeServer() {
+  try {
+    console.log('Server is stopping gracefully.');
+    io.close();
+    console.log('done !');
+  } catch (err) {
+    console.error('Error stopping server:', err);
+  }
+};
+
 // Run the server!
 fastify.listen({ port: 3000 }, function (err: any, address) {
   if (err) {
@@ -46,15 +68,5 @@ fastify.listen({ port: 3000 }, function (err: any, address) {
     process.exit(1)
   }
   // Server is now listening on ${address}
-})
+});
 
-
-
-io.on("connection", (socket: any) => {
-	console.log("testing")
-	socket.on("message", (data: any) => console.log(data))
-	socket.once("message", () => socket.send("connected succesfuly"));
-	socket.once("coucou", (data: any) => console.log(data))
-  const clientIP = socket.handshake.address;
-  console.log('Client connected from IP:', clientIP);
-})

@@ -228,17 +228,32 @@
     }
   }
 }
+.send-btn-style {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  border-radius: var(--radius-3xl);
+  border-style: var(--tw-border-style);
+  border-width: 2px;
+  border-color: var(--color-black);
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-blue-200);
+    }
+  }
+}
 .chatbox-style {
   margin-inline: auto;
   display: flex;
-  height: 50px;
+  height: 150px;
   width: 600px;
   flex-direction: column;
   overflow-y: auto;
   border-style: var(--tw-border-style);
   border-width: 2px;
   border-color: var(--color-black);
-  padding: 2.5;
+  padding: 10px;
+  text-align: left;
   white-space: pre-line;
   color: var(--color-gray-800);
   --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));

@@ -2,52 +2,57 @@
 
 import './style.css'
 import  io  from "socket.io-client"
+const socket = io("ws://localhost:3000");
 
 const chatWindow = document.getElementById('t-chatbox') as HTMLDivElement;
 const sendButton = document.getElementById('b-send') as HTMLButtonElement;
 const sendtextbox= document.getElementById('t-chat-window') as HTMLButtonElement;
+const blogout = document.getElementById('b-logout') as HTMLButtonElement;
 
-// Connect to the server (replace with the actual server URL if deployed elsewhere)
-const socket = io("ws://localhost:3000");
 
 // Add a new message to the chat display
-const addMessage = (text: string, isSystem: boolean) => {
+const addMessage = (text: string, styleText: boolean) => {
 	const messageElement = document.createElement('div');
 	messageElement.textContent = text;
-	if (isSystem) {
+	if (styleText) {
 		messageElement.style.fontStyle = 'italic';
 		messageElement.style.color = '#555';
 	}
 	chatWindow.appendChild(messageElement);
-	chatWindow.scrollTop = chatWindow.scrollHeight;
+	chatWindow.scrollTop = chatWindow.scrollHeight;   //puts scroll to the bottom
 };
 
 sendButton!.addEventListener('click', async () => {
 
   let msgtext: string = sendtextbox.value;
   if (msgtext) {
-    let user = "client: ";
+    let user: string = "client: ";
     msgtext = `${user}` + msgtext;
     addMessage(msgtext, true);
     console.log('text:',msgtext);
-    socket.emit("message", { message: `${msgtext}` });
+    socket.emit("message", { message: `${msgtext}`, user: `${user}` });
+    sendtextbox.value = "";
   }
+});
+
+blogout!.addEventListener('click', async () => {
+  console.log("end server");
+  socket.emit("toutou", {end:''});
 });
 
 
 
-
-
 // Listen for the 'connect' event
-socket.on("connect", () => {
+socket.on("connect", async() => {
   console.log("Connected to the server");
-
+  
   // Send a message to the server
   socket.send("Hello from the client!");
-
+  
   // Emit a custom event 'coucou' with some data
- 
+  
   socket.emit("coucou", { message: "Hello Nigel from coucou!" });
+  
 });
 
 // Listen for messages from the server
@@ -55,7 +60,7 @@ socket.on("message", (data) => {
   console.log("Message from server:", data);
   addMessage(data, true);
 });
-
+  
 // Listen for disconnect event
 socket.on("disconnect", () => {
   console.log("Disconnected from the server");
