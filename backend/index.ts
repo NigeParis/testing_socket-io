@@ -48,7 +48,7 @@ io.on("connection", (socket: any) => {
   console.log("testing")
   console.log(`Client connected: ${socket.id}`);
 	socket.on("message", (data: any) => console.log(data, `socketID: ${socket.id}`));
-	socket.once("message", () => socket.send("connected succesfuly"));
+	socket.once("message", () => socket.send("connected succesfully"));
 	socket.once("coucou", (data: any) => console.log(data))
   const clientIP = socket.handshake.address;
   socket.on("toutou", async() => await closeServer());
