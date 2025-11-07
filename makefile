@@ -3,6 +3,7 @@ all:build
 re: fclean all
 
 build:
+	@echo "dev build and run"
 	@touch ./frontend/style.css
 	@npx @tailwindcss/cli -i ./frontend/src/style.css -o ./frontend/style.css
 	@gnome-terminal --title="frontend" -- bash -c "cd $(PWD)/frontend; zsh | npx vite;" 2>/dev/null

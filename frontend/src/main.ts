@@ -3,8 +3,7 @@
 import './style.css'
 import  io  from "socket.io-client"
 
-
-
+const sendButton = document.getElementById('b-send') as HTMLButtonElement;
 
 // Connect to the server (replace with the actual server URL if deployed elsewhere)
 const socket = io("ws://localhost:3000");
@@ -17,6 +16,7 @@ socket.on("connect", () => {
   socket.send("Hello from the client!");
 
   // Emit a custom event 'coucou' with some data
+ 
   socket.emit("coucou", { message: "Hello from coucou!" });
 });
 
@@ -29,3 +29,4 @@ socket.on("message", (data) => {
 socket.on("disconnect", () => {
   console.log("Disconnected from the server");
 });
+
