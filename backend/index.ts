@@ -48,9 +48,13 @@ fastify.listen({ port: 3000 }, function (err: any, address) {
   // Server is now listening on ${address}
 })
 
+
+
 io.on("connection", (socket: any) => {
 	console.log("testing")
 	socket.on("message", (data: any) => console.log(data))
 	socket.once("message", () => socket.send("connected succesfuly"));
 	socket.once("coucou", (data: any) => console.log(data))
+  const clientIP = socket.handshake.address;
+  console.log('Client connected from IP:', clientIP);
 })

@@ -4,7 +4,8 @@ import './style.css'
 import  io  from "socket.io-client"
 
 const chatWindow = document.getElementById('t-chatbox') as HTMLDivElement;
-// const sendButton = document.getElementById('b-send') as HTMLButtonElement;
+const sendButton = document.getElementById('b-send') as HTMLButtonElement;
+const sendtextbox= document.getElementById('t-chat-window') as HTMLButtonElement;
 
 // Connect to the server (replace with the actual server URL if deployed elsewhere)
 const socket = io("ws://localhost:3000");
@@ -21,6 +22,20 @@ const addMessage = (text: string, isSystem: boolean) => {
 	chatWindow.scrollTop = chatWindow.scrollHeight;
 };
 
+sendButton!.addEventListener('click', async () => {
+
+  let msgtext: string = sendtextbox.value;
+  if (msgtext) {
+    let user = "client: ";
+    msgtext = `${user}` + msgtext;
+    addMessage(msgtext, true);
+    console.log('text:',msgtext);
+    socket.emit("message", { message: `${msgtext}` });
+  }
+});
+
+
+
 
 
 // Listen for the 'connect' event
@@ -32,7 +47,7 @@ socket.on("connect", () => {
 
   // Emit a custom event 'coucou' with some data
  
-  socket.emit("coucou", { message: "Hello from coucou!" });
+  socket.emit("coucou", { message: "Hello Nigel from coucou!" });
 });
 
 // Listen for messages from the server
@@ -44,7 +59,6 @@ socket.on("message", (data) => {
 // Listen for disconnect event
 socket.on("disconnect", () => {
   console.log("Disconnected from the server");
-    addMessage("Disconnected from the server", true);
-
+  addMessage("Disconnected from the server", true);
 });
 

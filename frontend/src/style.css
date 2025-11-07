@@ -14,7 +14,7 @@
 .chatbox-style {
   @apply
   w-[600px]
-  h-[200px] /* increase height if needed */
+  h-[50px] /* increase height if needed */
   p-[2.5]
   border-2 border-black
   shadow-sm
