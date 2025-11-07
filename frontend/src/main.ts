@@ -8,7 +8,8 @@ const chatWindow = document.getElementById('t-chatbox') as HTMLDivElement;
 const sendButton = document.getElementById('b-send') as HTMLButtonElement;
 const sendtextbox= document.getElementById('t-chat-window') as HTMLButtonElement;
 const blogout = document.getElementById('b-logout') as HTMLButtonElement;
-
+const bwhoami = document.getElementById('b-whoami') as HTMLButtonElement;
+const username = document.getElementById('username') as HTMLDivElement;
 
 // Add a new message to the chat display
 const addMessage = (text: any, styleText: boolean) => {
@@ -39,6 +40,13 @@ blogout!.addEventListener('click', async () => {
   socket.emit("toutou", {end:''});
 });
 
+bwhoami!.addEventListener('click', async () => {
+  console.log("client_socketID", socket.id);
+  let socketid = JSON.stringify(socket.id, null, 2);
+  const IDElement = document.createElement('username');
+  IDElement.textContent = socketid;
+  username.appendChild(IDElement);
+});
 
 
 // Listen for the 'connect' event
