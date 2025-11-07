@@ -26,18 +26,21 @@ const io = new Server(fastify.server, {
   }
 })
 
+
+
+
 // Declare a route
-fastify.get('/chat/', async function (request: any, reply: any) {
- try {
-		const filePath = path.join('../frontend/', 'index.html');
-		const fileContent = await fs.readFile(filePath, 'utf-8');
-		reply.type('text/html').send(fileContent);
-	}
-	catch (err) {
-		console.error('Error loading index.html:', err);
-		reply.code(500).send('Error loading index.html');
-	}
-})
+// fastify.get('/chat/', async function (request: any, reply: any) {
+//  try {
+// 		const filePath = path.join('../frontend/', 'index.html');
+// 		const fileContent = await fs.readFile(filePath, 'utf-8');
+// 		reply.type('text/html').send(fileContent);
+// 	}
+// 	catch (err) {
+// 		console.error('Error loading index.html:', err);
+// 		reply.code(500).send('Error loading index.html');
+// 	}
+// })
 
 
 
@@ -49,7 +52,23 @@ io.on("connection", (socket: any) => {
 	socket.once("coucou", (data: any) => console.log(data))
   const clientIP = socket.handshake.address;
   socket.on("toutou", async() => await closeServer());
+  // Broadcast to everyone except the sender
+  // socket.broadcast.emit('message', (data: any) => { from: socket.id, data });
+  socket.on("message", (data: any) => broadcast(data, socket));
+
 });
+
+
+
+function broadcast(message: any, sender?: any) {
+  for (const [id, socket] of io.sockets.sockets) {
+    if (socket !== sender) {
+      socket.emit("message", message);
+    }
+  }
+}
+
+
 
 async function closeServer() {
   try {

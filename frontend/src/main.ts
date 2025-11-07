@@ -11,9 +11,9 @@ const blogout = document.getElementById('b-logout') as HTMLButtonElement;
 
 
 // Add a new message to the chat display
-const addMessage = (text: string, styleText: boolean) => {
+const addMessage = (text: any, styleText: boolean) => {
 	const messageElement = document.createElement('div');
-	messageElement.textContent = text;
+	messageElement.textContent = JSON.stringify(text, null, 2);
 	if (styleText) {
 		messageElement.style.fontStyle = 'italic';
 		messageElement.style.color = '#555';
@@ -27,10 +27,9 @@ sendButton!.addEventListener('click', async () => {
   let msgtext: string = sendtextbox.value;
   if (msgtext) {
     let user: string = "client: ";
-    msgtext = `${user}` + msgtext;
     addMessage(msgtext, true);
     console.log('text:',msgtext);
-    socket.emit("message", { message: `${msgtext}`, user: `${user}` });
+    socket.emit("message", { message: `${msgtext}`, user: `${user}`, socketid: `${socket.id}` });
     sendtextbox.value = "";
   }
 });
@@ -44,7 +43,7 @@ blogout!.addEventListener('click', async () => {
 
 // Listen for the 'connect' event
 socket.on("connect", async() => {
-  console.log("Connected to the server");
+  console.log("Connected to the server: ", socket.id);
   
   // Send a message to the server
   socket.send("Hello from the client!");
