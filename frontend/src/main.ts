@@ -55,7 +55,7 @@ socket.on("connect", async() => {
   console.log("Connected to the server: ", socket.id);
   
   // Send a message to the server
-  socket.send("Hello from the client!");
+  socket.send("Hello from the client: " + `${socket.id}`);
   
   // Emit a custom event 'coucou' with some data
   
